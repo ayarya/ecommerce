@@ -61,6 +61,7 @@ app.post('/signin', async (req, res) => {
 		return res.send('password not correct');
 	}
 	req.session.userId = user.id;
+	res.send('you are sign in');
 });
 app.listen(3000, () => {
 	console.log('listening ');
