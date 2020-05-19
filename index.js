@@ -11,7 +11,7 @@ app.use(
 	})
 );
 
-app.get('/', (req, res) => {
+app.get('/signup', (req, res) => {
 	res.send(`
     <form method="POST">
         <input name="email" placeholder="Email" />
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
     `);
 });
 
-app.post('/', async (req, res) => {
+app.post('/signup', async (req, res) => {
 	const { email, password, passwordConfirmation } = req.body;
 	const exisitingUser = await usersRepo.getOneBy({ email: email });
 	if (exisitingUser) {
@@ -36,6 +36,22 @@ app.post('/', async (req, res) => {
 	res.send('Done');
 });
 
+app.get('/signout', (req, res) => {
+	req.session = null;
+	res.send('you are log out');
+});
+
+app.get('/signin', (req, res) => {
+	res.send(`
+    <form method="POST">
+        <input name="email" placeholder="Email" />
+        <input name="password" placeholder="password" />
+        <button>Sign In</button>
+    </form>
+    `);
+});
+
+app.post('/signin', async (req, res) => {});
 app.listen(3000, () => {
 	console.log('listening ');
 });
