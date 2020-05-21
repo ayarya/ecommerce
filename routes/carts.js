@@ -34,9 +34,15 @@ router.post('/cart/products', async (req, res) => {
 		cart.items.push({ id: req.body.productId, quantity: 1 });
 	}
 	await cartsRepo.update(cart.id, { items: cart.items });
-	res.send('prod added');
+	res.redirect('/cart');
 });
 
-router.post('/cart/products/delete');
+router.post('/cart/products/delete', async (req, res) => {
+	const { itemId } = req.body;
+	const cart = await cartsRepo.getOne(req.session.cartId);
+	const items = cart.items.filter((item) => item.id !== itemId);
+	await cartsRepo.update(req.session.cartId, { items });
+	res.redirect('/cart');
+});
 
 module.exports = router;
