@@ -26,7 +26,7 @@ router.post(
 		const { email, password, passwordConfirmation } = req.body;
 		const user = await usersRepo.create({ email, password }); // email : email, es6>
 		req.session.userId = user.id;
-		res.send('Done');
+		res.redirect('/admin/products');
 	}
 );
 
@@ -44,7 +44,7 @@ router.post('/signin', [ requireEmailExists, requireValidPassword ], handleError
 	const user = await usersRepo.getOneBy({ email });
 
 	req.session.userId = user.id;
-	res.send('you are sign in');
+	res.redirect('/admin/products');
 });
 
 module.exports = router;
